@@ -16,28 +16,27 @@ struct QuestionView: View {
                     .lilacTitle()
                 Spacer()
                 
-                Text("1 out of 10")
+                Text("\(triviaManager.index + 1) out of \(triviaManager.length)")
                     .foregroundColor(Color("AccentColor"))
             }
-            ProgressBar(progress: 40)
+            ProgressBar(progress: triviaManager.progress)
             
             VStack(alignment: .leading, spacing: 20) {
-                Text("Who was the executive producer of 'Ugly Betty' and also guest starred as Sofia Reyes?")
+                Text(triviaManager.question)
                     .font(.system(size: 20))
                     .bold()
-                    .foregroundColor(.gray)
-                
-                AnswerRow(answer: AnswerModel(text: "Salma Hayek", isCorrect: true))
-                    .environmentObject(triviaManager)
-                AnswerRow(answer: AnswerModel(text: "Penelope Cruz", isCorrect: false))
-                    .environmentObject(triviaManager)
-                AnswerRow(answer: AnswerModel(text: "Salma Hayek", isCorrect: true))
-                    .environmentObject(triviaManager)
-                AnswerRow(answer: AnswerModel(text: "Penelope Cruz", isCorrect: false))
-                    .environmentObject(triviaManager)
+                    .foregroundColor(Color(red: 142/255, green: 164/255, blue: 132/255))
+                ForEach(triviaManager.answerChoices, id:\.id) { answer in
+                    AnswerRow(answer: answer).environmentObject(triviaManager)
+                }
             }
             
-            PrimaryButton(text: "Next")
+            Button {
+                triviaManager.goToNextQuestion()
+            } label: {
+                PrimaryButton(text: "Next", background: triviaManager.answerSelected ? Color("AccentColor") : .gray)
+            }
+            .disabled(!triviaManager.answerSelected)
             
             Spacer()
             
@@ -45,7 +44,7 @@ struct QuestionView: View {
         .padding()
         .vSpacing()
         .hSpacing()
-        .background(.white)
+        .background(Color(red: 248/255, green: 232/255, blue: 175/255))
         .navigationBarBackButtonHidden(true)
     }
 }

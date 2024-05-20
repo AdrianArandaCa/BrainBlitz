@@ -27,6 +27,11 @@ class TriviaManager: ObservableObject {
     
     @MainActor
     func getTrivia() async {
+        self.index = 0
+        self.score = 0
+        self.progress = 0.0
+        self.reachedEnd = false
+        
         self.trivia = await apiClient.fetchTrivia()
         self.length = self.trivia.count
         self.setQuestion()

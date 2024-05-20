@@ -30,7 +30,7 @@ struct ContentView: View {
             .hSpacing()
             .vSpacing()
             .edgesIgnoringSafeArea(.all)
-        .background(.white)
+            .background(Color(red: 248/255, green: 232/255, blue: 175/255))
         }.onAppear{
             Task {
                 await triviaManager.getTrivia()
